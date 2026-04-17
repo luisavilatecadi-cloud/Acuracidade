@@ -291,7 +291,7 @@ try:
             st.markdown("---")
             st.subheader("🔍 Base de Dados Consolidada")
             def style_neg(v): return f'color: {"red" if v < 0 else "black"}'
-            st.dataframe(df_f.style.applymap(style_neg, subset=['Variaçao (UN)', 'Variação (R$)']).format({"Previsto (UN)": f_un, "Real (UN)": f_un, "Variaçao (UN)": f_un, "Acuracidade (UN)": f_pct, "Previsto (R$)": f_brl, "Real (R$)": f_brl, "Variação (R$)": f_brl, "Acuracidade (R$)": f_pct, "Ano": lambda x: f"{x}"}), use_container_width=True, hide_index=True)
+            st.dataframe(df_f.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)']).format({"Previsto (UN)": f_un, "Real (UN)": f_un, "Variaçao (UN)": f_un, "Acuracidade (UN)": f_pct, "Previsto (R$)": f_brl, "Real (R$)": f_brl, "Variação (R$)": f_brl, "Acuracidade (R$)": f_pct, "Ano": lambda x: f"{x}"}), use_container_width=True, hide_index=True)
 
         else:
             st.warning("Selecione filtros na sidebar.")
