@@ -57,7 +57,6 @@ st.markdown("""
         position: relative; 
     }
 
-    /* Target _blank evita o loop de redirecionamento do Streamlit Cloud */
     .full-card-link {
         position: absolute;
         width: 100%;
@@ -121,21 +120,24 @@ st.image("https://tecadi.com.br/wp-content/uploads/2024/01/LOGO-HORIZONTAL_BRANC
 st.markdown('</div>', unsafe_allow_html=True)
 
 st.markdown('<h1 class="hero-title">Hub Acuracidade</h1>', unsafe_allow_html=True)
-st.markdown('<p class="hero-subtitle">Gestão ZEN • Inteligência de Dados</p>', unsafe_allow_html=True)
+st.markdown('<p class="hero-subtitle">Gestão Fiscal e WMS • Inteligência de Dados</p>', unsafe_allow_html=True)
 
-# 4. Grid de Dashboards
+# 4. Grid de Dashboards (Ajustado para 2 colunas principais)
 st.markdown('<p class="category-title">Dashboards Disponíveis</p>', unsafe_allow_html=True)
 
-col1, col2, col3, col4 = st.columns(4)
+# Criamos 4 colunas mas usamos apenas as 2 centrais para um visual mais equilibrado
+# Ou usamos apenas 2 se você quiser que eles ocupem a tela toda. 
+# Abaixo usei 2 colunas diretas:
+col1, col2 = st.columns(2)
 
 with col1:
     st.markdown(f"""
         <div class="netflix-card">
-            <a href="https://acuracidade-zen-cortes-de-pedido.streamlit.app/" target="_blank" class="full-card-link"></a>
-            <div class="card-banner">✂️</div>
+            <a href="https://acuracidade-financeira.streamlit.app/" target="_blank" class="full-card-link"></a>
+            <div class="card-banner">💰</div>
             <div class="card-content">
-                <div class="card-title-text">Cortes de Pedido</div>
-                <div class="card-desc">Análise crítica de rupturas e perdas financeiras operacionais.</div>
+                <div class="card-title-text">Acuracidade Financeira</div>
+                <div class="card-desc">Análise de Impacto Financeiro, Divergências de Valores e Auditoria de Perdas Operacionais.</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
@@ -143,23 +145,11 @@ with col1:
 with col2:
     st.markdown(f"""
         <div class="netflix-card">
-            <a href="https://acuracidade-zen-ajuste-de-inventario.streamlit.app/" target="_blank" class="full-card-link"></a>
-            <div class="card-banner">🎯</div>
+            <a href="https://acuracidade-inventario-ciclico-wms.streamlit.app/" target="_blank" class="full-card-link"></a>
+            <div class="card-banner">📦</div>
             <div class="card-content">
-                <div class="card-title-text">Acuracidade de Estoque</div>
-                <div class="card-desc">Balanço de inventário, sobras, faltas e ajustes sistêmicos.</div>
-            </div>
-        </div>
-    """, unsafe_allow_html=True)
-
-with col3:
-    st.markdown(f"""
-        <div class="netflix-card">
-            <a href="https://acuracidade-zen-pulos.streamlit.app/" target="_blank" class="full-card-link"></a>
-            <div class="card-banner">📊</div>
-            <div class="card-content">
-                <div class="card-title-text">Análise de Pulos</div>
-                <div class="card-desc">Monitoramento de produtividade e recorrência de endereços (Pulos Reais).</div>
+                <div class="card-title-text">Acuracidade WMS</div>
+                <div class="card-desc">Indicadores de Acuracidade WMS, Acuracidade Financeira e de Execução dos Inventário Cíclicos.</div>
             </div>
         </div>
     """, unsafe_allow_html=True)
