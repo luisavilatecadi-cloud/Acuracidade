@@ -290,9 +290,39 @@ try:
 
             st.markdown("---")
             st.subheader("🔍 Base de Dados Consolidada")
-            def style_neg(v): return f'color: {"red" if v < 0 else "black"}'
-            st.dataframe(df_f.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)']).format({"Previsto (UN)": f_un, "Real (UN)": f_un, "Variaçao (UN)": f_un, "Acuracidade (UN)": f_pct, "Previsto (R$)": f_brl, "Real (R$)": f_brl, "Variação (R$)": f_brl, "Acuracidade (R$)": f_pct, "Ano": lambda x: f"{x}"}), use_container_width=True, hide_index=True)
+            
+            # 1. Tratamento rigoroso das colunas
+            # Removemos Meta_Calc e garantimos que a coluna de meta se chame exatamente 'META'
+            df_display = df_f.drop(columns=['Meta_Calc']).rename(
+                columns={
+                    'Perda_Max_Permitida': 'Perda Máxima SLA',
+                    'Meta': 'META' # Garante que 'Meta' vire 'META' caso esteja minúsculo
+                }
+            )
 
+            def style_neg(v): return f'color: {"red" if v < 0 else "black"}'
+            
+            # 2. Exibição com formatação lambda direta
+            st.dataframe(
+                df_display.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)'])
+                .format({
+                    "Previsto (UN)": f_un, 
+                    "Real (UN)": f_un, 
+                    "Variaçao (UN)": f_un, 
+                    "Acuracidade (UN)": f_pct, 
+                    "Previsto (R$)": f_brl, 
+                    "Real (R$)": f_brl, 
+                    "Variação (R$)": f_brl, 
+                    "Acuracidade (R$)": f_pct, 
+                    "Ano": lambda x: f"{x}",
+                    # Formatação de META (com tratamento para decimais ou inteiros)
+                    "META": lambda x: f"{x*100:.2f}%" if x <= 1 else f"{x:.2f}%",
+                    # Formatação de Moeda sem decimais
+                    "Perda Máxima SLA": lambda x: f"R$ {x:,.0f}".replace(",", ".")
+                }), 
+                use_container_width=True, 
+                hide_index=True
+            )
         else:
             st.warning("Selecione filtros na sidebar.")
 except Exception as e:
