@@ -291,7 +291,7 @@ try:
            st.markdown("---")
             st.subheader("🔍 Base de Dados Consolidada")
             
-            # Preparação do DataFrame: remove Meta_Calc e renomeia Perda_Max_Permitida
+            # Preparação do DataFrame para exibição: remove META_CALC e renomeia Perda_Max_Permitida
             df_display = df_f.drop(columns=['Meta_Calc']).rename(
                 columns={'Perda_Max_Permitida': 'Perda Máxima SLA'}
             )
@@ -310,9 +310,9 @@ try:
                     "Variação (R$)": f_brl, 
                     "Acuracidade (R$)": f_pct, 
                     "Ano": lambda x: f"{x}",
-                    # Formatações corrigidas com lambda para garantir o símbolo %
-                    "META": lambda x: f"{x*100:.2f}%" if x <= 1 else f"{x:.2f}%",
-                    "Perda Máxima SLA": lambda x: f"R$ {x:,.0f}".replace(",", ".")
+                    # Novas formatações solicitadas:
+                    "META": "{:.2%}",
+                    "Perda Máxima SLA": "R$ {:,.0f}".format
                 }), 
                 use_container_width=True, 
                 hide_index=True
