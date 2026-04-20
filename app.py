@@ -288,37 +288,13 @@ try:
                     st.metric("Indicador Calculado", f_pct(res_acu))
                     st.markdown('</div>', unsafe_allow_html=True)
 
-            st.markdown("---")
-st.subheader("🔍 Base de Dados Consolidada")
+           st.markdown("---")
 
-# Função para destacar valores negativos em vermelho
-def style_neg(v): 
-    return f'color: {"red" if v < 0 else "black"}'
+            st.subheader("🔍 Base de Dados Consolidada")
 
-# 1. Removendo a coluna indesejada e renomeando a solicitada
-df_display = df_f.drop(columns=['META_CALC']).rename(columns={'Perda_Max_Permitida': 'Perda Máxima SLA'})
+            def style_neg(v): return f'color: {"red" if v < 0 else "black"}'
 
-# 2. Exibição com as novas formatações
-st.dataframe(
-    df_display.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)'])
-    .format({
-        # Formatações originais
-        "Previsto (UN)": f_un, 
-        "Real (UN)": f_un, 
-        "Variaçao (UN)": f_un, 
-        "Acuracidade (UN)": f_pct, 
-        "Previsto (R$)": f_brl, 
-        "Real (R$)": f_brl, 
-        "Variação (R$)": f_brl, 
-        "Acuracidade (R$)": f_pct, 
-        "Ano": lambda x: f"{x}",
-        
-        # Novas formatações solicitadas
-        "META": "{:.2%}",                   # Porcentagem com 2 casas decimais
-        "Perda Máxima SLA": "R$ {:,.0f}"    # Moeda sem casas decimais
-    }), 
-    use_container_width=True, 
-    hide_index=True
+            st.dataframe(df_f.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)']).format({"Previsto (UN)": f_un, "Real (UN)": f_un, "Variaçao (UN)": f_un, "Acuracidade (UN)": f_pct, "Previsto (R$)": f_brl, "Real (R$)": f_brl, "Variação (R$)": f_brl, "Acuracidade (R$)": f_pct, "Ano": lambda x: f"{x}"}), use_container_width=True, hide_index=True)
 )
         else:
             st.warning("Selecione filtros na sidebar.")
