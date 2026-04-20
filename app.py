@@ -288,35 +288,43 @@ try:
                     st.metric("Indicador Calculado", f_pct(res_acu))
                     st.markdown('</div>', unsafe_allow_html=True)
 
-           st.markdown("---")
-            st.subheader("🔍 Base de Dados Consolidada")
-            
-            # Preparação do DataFrame para exibição: remove META_CALC e renomeia Perda_Max_Permitida
-            df_display = df_f.drop(columns=['Meta_Calc']).rename(
-                columns={'Perda_Max_Permitida': 'Perda Máxima SLA'}
-            )
+           try:
+    st.markdown("---")
+    st.subheader("🔍 Base de Dados Consolidada")
 
-            def style_neg(v): return f'color: {"red" if v < 0 else "black"}'
-            
-            st.dataframe(
-                df_display.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)'])
-                .format({
-                    "Previsto (UN)": f_un, 
-                    "Real (UN)": f_un, 
-                    "Variaçao (UN)": f_un, 
-                    "Acuracidade (UN)": f_pct, 
-                    "Previsto (R$)": f_brl, 
-                    "Real (R$)": f_brl, 
-                    "Variação (R$)": f_brl, 
-                    "Acuracidade (R$)": f_pct, 
-                    "Ano": lambda x: f"{x}",
-                    # Novas formatações solicitadas:
-                    "META": "{:.2%}",
-                    "Perda Máxima SLA": "R$ {:,.0f}".format
-                }), 
-                use_container_width=True, 
-                hide_index=True
-            )
+    # 1. Preparação dos dados: Remove e Renomeia
+    # Usamos .drop para tirar a META_CALC e .rename para o novo nome da SLA
+    df_display = df_f.drop(columns=['META_CALC']).rename(
+        columns={'Perda_Max_Permitida': 'Perda Máxima SLA'}
+    )
+
+    # 2. Função para cores negativas
+    def style_neg(v): 
+        return f'color: {"red" if v < 0 else "black"}'
+
+    # 3. Exibição com formatação técnica
+    st.dataframe(
+        df_display.style.map(style_neg, subset=['Variaçao (UN)', 'Variação (R$)'])
+        .format({
+            "Previsto (UN)": f_un, 
+            "Real (UN)": f_un, 
+            "Variaçao (UN)": f_un, 
+            "Acuracidade (UN)": f_pct, 
+            "Previsto (R$)": f_brl, 
+            "Real (R$)": f_brl, 
+            "Variação (R$)": f_brl, 
+            "Acuracidade (R$)": f_pct, 
+            "Ano": lambda x: f"{x}",
+            # Correções solicitadas:
+            "META": "{:.2%}",                   # % com 2 casas decimais
+            "Perda Máxima SLA": "R$ {:,.0f}"    # R$ sem casas decimais
+        }), 
+        use_container_width=True, 
+        hide_index=True
+    )
+
+except Exception as e:
+    st.error(f"Ocorreu um erro ao carregar a tabela: {e}")
         else:
             st.warning("Selecione filtros na sidebar.")
 except Exception as e:
