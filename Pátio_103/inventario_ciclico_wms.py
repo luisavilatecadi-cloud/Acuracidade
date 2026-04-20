@@ -26,7 +26,7 @@ def format_pct(v, is_execucao=False):
     if v > 0.9999 and v < 1.0 and not is_execucao: return "99.99%"
     return f"{v*100:.2f}%"
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl=10)
 def load_all_data():
     urls = {
         "U103": "https://tecadi-my.sharepoint.com/:x:/g/personal/luis_avila_tecadi_com_br/IQD0njYMHEyNRZxqukJFdMnYAd8VCQnwAfBAjWcJqPjUezk?download=1",
